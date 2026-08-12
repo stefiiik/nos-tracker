@@ -148,7 +148,7 @@ const RAID_TASKS = {
   },
   "Pollutus": {
     psp: ["Phase 1", "Phase 2", "Phase 3", "Mini"],
-    sp: ["SP Debuff mini", "SP Debuff 100%", "SP Debuff 50%", "SP Debuff 25%"],
+    sp: ["SP Debuff mini", "SP Debuff p1", "SP Debuff p2", "SP Debuff p3"],
     levers: ["Lever 1+2+3", "Lever 4", "Portal"],
   },
   "Uarma": {
