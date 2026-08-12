@@ -654,6 +654,118 @@ export default function RaidPlanner({ session, onBack, onUpdate }) {
   );
 }
 
+// ---------------------------------------------------------------
+// Short text line for copying into in-game chat, e.g.
+//   john/SP6/DBF mini+50%/Pri p2/Lever 1+2+3/Portal
+// ---------------------------------------------------------------
+const PSP_SHORT = {
+  Primary: "Pri",
+  Secondary: "Sec",
+  Element: "Ele",
+  Dog: "Dog",
+  "Lucy/Cheongbi": "Lucy/Chngb",
+  "Ragnar/Neza": "Rag/Neza",
+  Jinn: "Jinn",
+};
+
+function shortSpTask(task) {
+  // "SP Debuff mini" -> "mini", "SP Debuff 50%" -> "50%"
+  return task.replace(/^SP Debuff\s*/i, "");
+}
+
+function shortPspTask(task) {
+  // "Phase 2" -> "p2", "100% boss" -> "100%", "Room 1" -> "R1"
+  const phase = task.match(/^Phase\s*(\d+)$/i);
+  if (phase) return "p" + phase[1];
+
+  const room = task.match(/^Room\s*(\d+)$/i);
+  if (room) return "R" + room[1];
+
+  return task
+    .replace(/\s*boss$/i, "")
+    .replace(/^Boss\s+/i, "")
+    .trim();
+}
+
+function shortLever(task) {
+  // "Lever 1+2+3" -> "L1+2+3", "Lever" -> "L", "Portal" stays as is
+  return task.replace(/^Lever\s*/i, "L");
+}
+
+function buildCopyText(p) {
+  const parts = [];
+
+  parts.push(p.name.trim() || "?");
+
+  if (p.sp) parts.push("SP" + p.sp);
+
+  if (p.spTasks && p.spTasks.length > 0) {
+    parts.push("DBF " + p.spTasks.map(shortSpTask).join("+"));
+  }
+
+  const pspBits = [];
+  if (p.psp) pspBits.push(PSP_SHORT[p.psp] || p.psp);
+  if (p.pspTasks && p.pspTasks.length > 0) {
+    pspBits.push(p.pspTasks.map(shortPspTask).join("+"));
+  }
+  if (pspBits.length) parts.push(pspBits.join(" "));
+
+  if (p.levers && p.levers.length > 0) {
+    for (const lever of p.levers) parts.push(shortLever(lever));
+  }
+
+  return parts.join("/");
+}
+
+async function copyToClipboard(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch (e) {
+    // Fallback for browsers/contexts without the async clipboard API.
+    try {
+      const el = document.createElement("textarea");
+      el.value = text;
+      el.style.position = "fixed";
+      el.style.opacity = "0";
+      document.body.appendChild(el);
+      el.select();
+      const ok = document.execCommand("copy");
+      document.body.removeChild(el);
+      return ok;
+    } catch (e2) {
+      return false;
+    }
+  }
+}
+
+function CopyButton({ player }) {
+  const [copied, setCopied] = useState(false);
+
+  async function handleCopy() {
+    const ok = await copyToClipboard(buildCopyText(player));
+    if (!ok) return;
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={handleCopy}
+      title={buildCopyText(player)}
+      className={
+        "ml-auto shrink-0 text-[10px] px-2 py-0.5 rounded border transition " +
+        (copied
+          ? "border-emerald-500 text-emerald-300 bg-emerald-500/10"
+          : "border-slate-700 text-slate-500 hover:text-slate-200 hover:border-slate-500")
+      }
+    >
+      {copied ? "Copied" : "Copy"}
+    </button>
+  );
+}
+
 function PlayerLine({ index, p }) {
   const roleIcon = ROLE_ICONS[p.cls];
   const spIcon = p.sp ? (SP_ICONS[p.cls] || {})[p.sp] : null;
@@ -706,6 +818,8 @@ function PlayerLine({ index, p }) {
           {p.levers.join(" + ")}
         </span>
       )}
+
+      <CopyButton player={p} />
     </li>
   );
 }
