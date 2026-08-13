@@ -171,6 +171,17 @@ const RAID_TASKS = {
     sp: ["SP Debuff Boss", "SP Debuff Mini"],
     levers: ["Lever", "Portal"],
   },
+  "Fernon": { psp: [], sp: [], levers: [] },
+  "Alzanor": { psp: [], sp: [], levers: [] },
+  "Valehir": { psp: [], sp: [], levers: [] },
+  "Cuby Hell": { psp: [], sp: [], levers: [] },
+  "Cuby Titan": { psp: [], sp: [], levers: [] },
+  "Ginseng Nether": { psp: [], sp: [], levers: [] },
+  "Ginseng Chrono": { psp: [], sp: [], levers: [] },
+  "Castra Chaos": { psp: [], sp: [], levers: [] },
+  "Castra Sea": { psp: [], sp: [], levers: [] },
+  "Spider Ether": { psp: [], sp: [], levers: [] },
+  "Spider Berserk": { psp: [], sp: [], levers: [] },
 };
 
 function tasksFor(raidName) {
