@@ -12,14 +12,6 @@ export const RAID_CONFIG = {
   "Paimon": { slots: 20, elements: null },
   "Yertirand": { slots: 15, elements: null },
   "Dr.Dimensio": { slots: 16, elements: ["Fire", "Water", "Shadow", "Light"] },
-  "Cuby Hell": { slots: 15, elements: null },
-  "Cuby Titan": { slots: 15, elements: null },
-  "Ginseng Nether": { slots: 15, elements: null },
-  "Ginseng Chrono": { slots: 15, elements: null },
-  "Castra Chaos": { slots: 15, elements: null },
-  "Castra Sea": { slots: 15, elements: null },
-  "Spider Ether": { slots: 15, elements: null },
-  "Spider Berserk": { slots: 15, elements: null },
 };
 
 const CLASSES = {
@@ -174,14 +166,6 @@ const RAID_TASKS = {
   "Fernon": { psp: [], sp: [], levers: [] },
   "Alzanor": { psp: [], sp: [], levers: [] },
   "Valehir": { psp: [], sp: [], levers: [] },
-  "Cuby Hell": { psp: [], sp: [], levers: [] },
-  "Cuby Titan": { psp: [], sp: [], levers: [] },
-  "Ginseng Nether": { psp: [], sp: [], levers: [] },
-  "Ginseng Chrono": { psp: [], sp: [], levers: [] },
-  "Castra Chaos": { psp: [], sp: [], levers: [] },
-  "Castra Sea": { psp: [], sp: [], levers: [] },
-  "Spider Ether": { psp: [], sp: [], levers: [] },
-  "Spider Berserk": { psp: [], sp: [], levers: [] },
 };
 
 function tasksFor(raidName) {
