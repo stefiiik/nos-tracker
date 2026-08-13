@@ -769,18 +769,18 @@ function PlayerLine({ index, p, showLevers }) {
   const hasLevers = p.levers && p.levers.length > 0;
 
   const gridCols = showLevers
-    ? "grid-cols-[36px_1fr_1fr_1fr_140px_60px]"
-    : "grid-cols-[36px_1fr_1fr_1fr_60px]";
+    ? "grid-cols-[36px_140px_1.3fr_1.3fr_90px_60px]"
+    : "grid-cols-[36px_140px_1.3fr_1.3fr_60px]";
 
   return (
     <div className={`grid ${gridCols} divide-x divide-slate-800`}>
       <div className="px-2 py-2 text-slate-500 text-sm flex items-center">{index}.</div>
 
-      <div className="px-3 py-2 flex items-center gap-2">
+      <div className="px-2 py-2 flex items-center gap-1.5 min-w-0">
         {roleIcon && (
-          <img src={roleIcon} alt={p.cls} title={p.cls} className="w-7 h-7 rounded shrink-0" />
+          <img src={roleIcon} alt={p.cls} title={p.cls} className="w-6 h-6 rounded shrink-0" />
         )}
-        <span className="font-semibold text-base truncate">{p.name}</span>
+        <span className="font-semibold text-sm truncate">{p.name}</span>
       </div>
 
       <div className="px-3 py-2 flex items-center">
@@ -819,7 +819,7 @@ function PlayerLine({ index, p, showLevers }) {
         <div className="px-3 py-2 flex items-center">
           {hasLevers && (
             <span className="rounded-md bg-amber-500/10 border border-amber-500/30 px-2 py-1 text-amber-200 text-sm">
-              {p.levers.join(" + ")}
+              {p.levers.map((l) => l.replace(/Lever\s*/i, "L")).join("+")}
             </span>
           )}
         </div>
@@ -834,8 +834,8 @@ function PlayerLine({ index, p, showLevers }) {
 
 function PlayerTable({ items, showLevers }) {
   const gridCols = showLevers
-    ? "grid-cols-[36px_1fr_1fr_1fr_140px_60px]"
-    : "grid-cols-[36px_1fr_1fr_1fr_60px]";
+    ? "grid-cols-[36px_140px_1.3fr_1.3fr_90px_60px]"
+    : "grid-cols-[36px_140px_1.3fr_1.3fr_60px]";
 
   return (
     <div className="border border-slate-800 rounded-lg overflow-hidden">
