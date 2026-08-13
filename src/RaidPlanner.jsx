@@ -596,14 +596,16 @@ export default function RaidPlanner({ session, onBack, onUpdate }) {
             </div>
 
             {!hasElements && (
-              <ol className="space-y-2">
-                {players.filter((p) => p.name.trim()).map((p, i) => (
-                  <PlayerLine key={p.id} index={i + 1} p={p} />
-                ))}
-                {filledCount === 0 && (
+              <>
+                {filledCount === 0 ? (
                   <p className="text-slate-500 text-sm">No players filled in yet.</p>
+                ) : (
+                  <PlayerTable
+                    items={players.filter((p) => p.name.trim())}
+                    showLevers={hasLevers}
+                  />
                 )}
-              </ol>
+              </>
             )}
 
             {hasElements && grouped && (
@@ -621,11 +623,9 @@ export default function RaidPlanner({ session, onBack, onUpdate }) {
                       {list.length === 0 ? (
                         <p className="text-slate-600 text-xs italic pl-4">empty</p>
                       ) : (
-                        <ol className="space-y-1.5 pl-4">
-                          {list.map((p, i) => (
-                            <PlayerLine key={p.id} index={i + 1} p={p} />
-                          ))}
-                        </ol>
+                        <div className="pl-4">
+                          <PlayerTable items={list} showLevers={hasLevers} />
+                        </div>
                       )}
                     </div>
                   );
@@ -633,11 +633,9 @@ export default function RaidPlanner({ session, onBack, onUpdate }) {
                 {grouped.unassigned.length > 0 && (
                   <div>
                     <span className="text-base font-semibold text-slate-400">No element</span>
-                    <ol className="space-y-1.5 pl-4 mt-1.5">
-                      {grouped.unassigned.map((p, i) => (
-                        <PlayerLine key={p.id} index={i + 1} p={p} />
-                      ))}
-                    </ol>
+                    <div className="pl-4 mt-1.5">
+                      <PlayerTable items={grouped.unassigned} showLevers={hasLevers} />
+                    </div>
                   </div>
                 )}
               </div>
@@ -761,7 +759,7 @@ function CopyButton({ player }) {
   );
 }
 
-function PlayerLine({ index, p }) {
+function PlayerLine({ index, p, showLevers }) {
   const roleIcon = ROLE_ICONS[p.cls];
   const spIcon = p.sp ? (SP_ICONS[p.cls] || {})[p.sp] : null;
   const pspType = p.psp ? PSP_TYPES.find((x) => x.key === p.psp) : null;
@@ -770,51 +768,90 @@ function PlayerLine({ index, p }) {
   const hasPsp = !!pspType || (p.pspTasks && p.pspTasks.length > 0);
   const hasLevers = p.levers && p.levers.length > 0;
 
+  const gridCols = showLevers
+    ? "grid-cols-[36px_1fr_1fr_1fr_140px_60px]"
+    : "grid-cols-[36px_1fr_1fr_1fr_60px]";
+
   return (
-    <li className="text-base flex flex-wrap items-center gap-x-4 gap-y-2">
-      <span className="text-slate-500 w-6 shrink-0">{index}.</span>
+    <div className={`grid ${gridCols} divide-x divide-slate-800`}>
+      <div className="px-2 py-2 text-slate-500 text-sm flex items-center">{index}.</div>
 
-      {roleIcon && (
-        <img src={roleIcon} alt={p.cls} title={p.cls} className="w-7 h-7 rounded shrink-0" />
-      )}
+      <div className="px-3 py-2 flex items-center gap-2">
+        {roleIcon && (
+          <img src={roleIcon} alt={p.cls} title={p.cls} className="w-7 h-7 rounded shrink-0" />
+        )}
+        <span className="font-semibold text-base truncate">{p.name}</span>
+      </div>
 
-      <span className="font-semibold text-base">{p.name}</span>
+      <div className="px-3 py-2 flex items-center">
+        {hasSp && (
+          <span className="flex items-center gap-1.5 rounded-md bg-sky-500/10 border border-sky-500/30 px-2 py-1">
+            {spIcon ? (
+              <img src={spIcon} alt={`SP ${p.sp}`} title={`SP ${p.sp}`} className="w-7 h-7 rounded" />
+            ) : (
+              p.sp && <span className="text-sky-200 text-sm">SP {p.sp}</span>
+            )}
+            {p.spTasks && p.spTasks.length > 0 && (
+              <span className="text-sky-200 text-sm">{p.spTasks.join(" + ")}</span>
+            )}
+          </span>
+        )}
+      </div>
 
-      {hasSp && (
-        <span className="flex items-center gap-1.5 rounded-md bg-sky-500/10 border border-sky-500/30 px-2 py-1">
-          {spIcon ? (
-            <img src={spIcon} alt={`SP ${p.sp}`} title={`SP ${p.sp}`} className="w-7 h-7 rounded" />
-          ) : (
-            p.sp && <span className="text-sky-200 text-sm">SP {p.sp}</span>
-          )}
-          {p.spTasks && p.spTasks.length > 0 && (
-            <span className="text-sky-200 text-sm">{p.spTasks.join(" + ")}</span>
-          )}
-        </span>
-      )}
+      <div className="px-3 py-2 flex items-center">
+        {hasPsp && (
+          <span className="flex items-center gap-1.5 rounded-md bg-fuchsia-500/10 border border-fuchsia-500/30 px-2 py-1">
+            {pspType && (
+              <span className="flex items-center -space-x-1" title={pspType.label}>
+                {pspType.icons.map((icon, i) => (
+                  <img key={i} src={icon} alt={pspType.label} className="w-7 h-7 rounded" />
+                ))}
+              </span>
+            )}
+            {p.pspTasks && p.pspTasks.length > 0 && (
+              <span className="text-fuchsia-200 text-sm">{p.pspTasks.join(" + ")}</span>
+            )}
+          </span>
+        )}
+      </div>
 
-      {hasPsp && (
-        <span className="flex items-center gap-1.5 rounded-md bg-fuchsia-500/10 border border-fuchsia-500/30 px-2 py-1">
-          {pspType && (
-            <span className="flex items-center -space-x-1" title={pspType.label}>
-              {pspType.icons.map((icon, i) => (
-                <img key={i} src={icon} alt={pspType.label} className="w-7 h-7 rounded" />
-              ))}
+      {showLevers && (
+        <div className="px-3 py-2 flex items-center">
+          {hasLevers && (
+            <span className="rounded-md bg-amber-500/10 border border-amber-500/30 px-2 py-1 text-amber-200 text-sm">
+              {p.levers.join(" + ")}
             </span>
           )}
-          {p.pspTasks && p.pspTasks.length > 0 && (
-            <span className="text-fuchsia-200 text-sm">{p.pspTasks.join(" + ")}</span>
-          )}
-        </span>
+        </div>
       )}
 
-      {hasLevers && (
-        <span className="rounded-md bg-amber-500/10 border border-amber-500/30 px-2 py-1 text-amber-200 text-sm">
-          {p.levers.join(" + ")}
-        </span>
-      )}
+      <div className="px-2 py-2 flex items-center justify-center">
+        <CopyButton player={p} />
+      </div>
+    </div>
+  );
+}
 
-      <CopyButton player={p} />
-    </li>
+function PlayerTable({ items, showLevers }) {
+  const gridCols = showLevers
+    ? "grid-cols-[36px_1fr_1fr_1fr_140px_60px]"
+    : "grid-cols-[36px_1fr_1fr_1fr_60px]";
+
+  return (
+    <div className="border border-slate-800 rounded-lg overflow-hidden">
+      <div className={`grid ${gridCols} divide-x divide-slate-800 bg-slate-900/60 text-xs uppercase tracking-wide text-slate-500`}>
+        <div className="px-2 py-2">#</div>
+        <div className="px-3 py-2">Name</div>
+        <div className="px-3 py-2">SP</div>
+        <div className="px-3 py-2">PSP</div>
+        {showLevers && <div className="px-3 py-2">Levers</div>}
+        <div className="px-2 py-2 text-center">Copy</div>
+      </div>
+      <div className="divide-y divide-slate-800">
+        {items.map((p, i) => (
+          <PlayerLine key={p.id} index={i + 1} p={p} showLevers={showLevers} />
+        ))}
+      </div>
+    </div>
   );
 }
