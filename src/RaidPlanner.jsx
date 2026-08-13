@@ -596,8 +596,8 @@ export default function RaidPlanner({ session, onBack, onUpdate }) {
 
           <div className="bg-slate-900 border border-slate-800 rounded-xl p-5">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-bold">📢 {raidName}</h3>
-              <span className="text-sm text-slate-400">{filledCount}/{raid.slots}</span>
+              <h3 className="text-xl font-bold">📢 {raidName}</h3>
+              <span className="text-base text-slate-400">{filledCount}/{raid.slots}</span>
             </div>
 
             {!hasElements && (
@@ -620,8 +620,8 @@ export default function RaidPlanner({ session, onBack, onUpdate }) {
                     <div key={el}>
                       <div className="flex items-center gap-2 mb-1.5">
                         <span className={"w-2 h-2 rounded-full " + style.bar} />
-                        <span className={"text-sm font-semibold " + style.text}>{el}</span>
-                        <span className="text-xs text-slate-500">({list.length})</span>
+                        <span className={"text-base font-semibold " + style.text}>{el}</span>
+                        <span className="text-sm text-slate-500">({list.length})</span>
                       </div>
                       {list.length === 0 ? (
                         <p className="text-slate-600 text-xs italic pl-4">empty</p>
@@ -637,7 +637,7 @@ export default function RaidPlanner({ session, onBack, onUpdate }) {
                 })}
                 {grouped.unassigned.length > 0 && (
                   <div>
-                    <span className="text-sm font-semibold text-slate-400">No element</span>
+                    <span className="text-base font-semibold text-slate-400">No element</span>
                     <ol className="space-y-1.5 pl-4 mt-1.5">
                       {grouped.unassigned.map((p, i) => (
                         <PlayerLine key={p.id} index={i + 1} p={p} />
@@ -776,45 +776,45 @@ function PlayerLine({ index, p }) {
   const hasLevers = p.levers && p.levers.length > 0;
 
   return (
-    <li className="text-sm flex flex-wrap items-center gap-x-2 gap-y-1">
-      <span className="text-slate-500 w-5 shrink-0">{index}.</span>
+    <li className="text-base flex flex-wrap items-center gap-x-4 gap-y-2">
+      <span className="text-slate-500 w-6 shrink-0">{index}.</span>
 
       {roleIcon && (
-        <img src={roleIcon} alt={p.cls} title={p.cls} className="w-5 h-5 rounded shrink-0" />
+        <img src={roleIcon} alt={p.cls} title={p.cls} className="w-7 h-7 rounded shrink-0" />
       )}
 
-      <span className="font-medium">{p.name}</span>
+      <span className="font-semibold text-base">{p.name}</span>
 
       {hasSp && (
-        <span className="flex items-center gap-1.5 rounded-md bg-sky-500/10 border border-sky-500/30 px-1.5 py-0.5">
+        <span className="flex items-center gap-1.5 rounded-md bg-sky-500/10 border border-sky-500/30 px-2 py-1">
           {spIcon ? (
-            <img src={spIcon} alt={`SP ${p.sp}`} title={`SP ${p.sp}`} className="w-5 h-5 rounded" />
+            <img src={spIcon} alt={`SP ${p.sp}`} title={`SP ${p.sp}`} className="w-7 h-7 rounded" />
           ) : (
-            p.sp && <span className="text-sky-200 text-xs">SP {p.sp}</span>
+            p.sp && <span className="text-sky-200 text-sm">SP {p.sp}</span>
           )}
           {p.spTasks && p.spTasks.length > 0 && (
-            <span className="text-sky-200 text-xs">{p.spTasks.join(" + ")}</span>
+            <span className="text-sky-200 text-sm">{p.spTasks.join(" + ")}</span>
           )}
         </span>
       )}
 
       {hasPsp && (
-        <span className="flex items-center gap-1.5 rounded-md bg-fuchsia-500/10 border border-fuchsia-500/30 px-1.5 py-0.5">
+        <span className="flex items-center gap-1.5 rounded-md bg-fuchsia-500/10 border border-fuchsia-500/30 px-2 py-1">
           {pspType && (
             <span className="flex items-center -space-x-1" title={pspType.label}>
               {pspType.icons.map((icon, i) => (
-                <img key={i} src={icon} alt={pspType.label} className="w-5 h-5 rounded" />
+                <img key={i} src={icon} alt={pspType.label} className="w-7 h-7 rounded" />
               ))}
             </span>
           )}
           {p.pspTasks && p.pspTasks.length > 0 && (
-            <span className="text-fuchsia-200 text-xs">{p.pspTasks.join(" + ")}</span>
+            <span className="text-fuchsia-200 text-sm">{p.pspTasks.join(" + ")}</span>
           )}
         </span>
       )}
 
       {hasLevers && (
-        <span className="rounded-md bg-amber-500/10 border border-amber-500/30 px-1.5 py-0.5 text-amber-200 text-xs">
+        <span className="rounded-md bg-amber-500/10 border border-amber-500/30 px-2 py-1 text-amber-200 text-sm">
           {p.levers.join(" + ")}
         </span>
       )}
