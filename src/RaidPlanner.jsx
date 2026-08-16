@@ -127,6 +127,7 @@ const ROLE_TYPES = [
 // Default set (Crusher and any raid without its own task list):
 // same options for both Assignment SP and Assignment PSP, no levers.
 const DEFAULT_TASKS = [
+  "Fill",
   "Start Mobs", "Start Mini", "Platform Mobs", "Platform Mini",
   "Phase 1", "Phase 2", "Phase 3",
 ];
@@ -134,41 +135,41 @@ const DEFAULT_TASKS = [
 // Per-raid tasks: psp = Assignment PSP, sp = Assignment SP, levers = Levers.
 const RAID_TASKS = {
   "Nezarun v1": {
-    psp: ["Mid", "100% boss", "50% boss", "25% boss"],
-    sp: ["SP Debuff mid", "SP Debuff 100%", "SP Debuff 50%", "SP Debuff 25%"],
+    psp: ["Fill", "Mid", "100% boss", "50% boss", "25% boss"],
+    sp: ["SP Debuff Fill", "SP Debuff mid", "SP Debuff 100%", "SP Debuff 50%", "SP Debuff 25%"],
     levers: ["Lever 1+2", "Lever 3", "Portal"],
   },
   "Pollutus": {
-    psp: ["Phase 1", "Phase 2", "Phase 3", "Mini"],
-    sp: ["SP Debuff mini", "SP Debuff p1", "SP Debuff p2", "SP Debuff p3"],
+    psp: ["Fill", "Phase 1", "Phase 2", "Phase 3", "Mini"],
+    sp: ["SP Debuff Fill", "SP Debuff mini", "SP Debuff p1", "SP Debuff p2", "SP Debuff p3"],
     levers: ["Lever 1", "Lever 2", "Lever 3", "Lever 4", "Portal"],
   },
   "Uarma": {
-    psp: ["Boss", "Room 1", "Room 2", "Room 3"],
-    sp: [],
+    psp: ["Fill", "Boss", "Room 1", "Room 2", "Room 3"],
+    sp: ["SP Debuff Fill"],
     levers: [],
   },
   "Arma v1": {
-    psp: ["Start mini", "Mid", "Boss"],
-    sp: ["SP Debuff Start mini", "SP Debuff mid", "SP Debuff Boss"],
+    psp: ["Fill", "Start mini", "Mid", "Boss"],
+    sp: ["SP Debuff Fill", "SP Debuff Start mini", "SP Debuff mid", "SP Debuff Boss"],
     levers: ["Lever 1", "Lever 2", "Lever 3", "Portal"],
   },
   "Yertirand": {
-    psp: ["Boss 100%", "Boss 50%", "Boss 25%"],
-    sp: ["SP Debuff 100%", "SP Debuff 50%", "SP Debuff 25%"],
+    psp: ["Fill", "Boss 100%", "Boss 50%", "Boss 25%"],
+    sp: ["SP Debuff Fill", "SP Debuff 100%", "SP Debuff 50%", "SP Debuff 25%"],
     levers: [],
   },
   "Paimon": {
-    psp: ["Boss", "Mini"],
-    sp: ["SP Debuff Boss", "SP Debuff Mini"],
+    psp: ["Fill", "Boss", "Mini"],
+    sp: ["SP Debuff Fill", "SP Debuff Boss", "SP Debuff Mini"],
     levers: ["Lever", "Portal"],
   },
-  "Fernon": { psp: [], sp: [], levers: [] },
-  "Alzanor": { psp: [], sp: [], levers: [] },
-  "Valehir": { psp: [], sp: [], levers: [] },
+  "Fernon": { psp: ["Fill"], sp: ["SP Debuff Fill"], levers: [] },
+  "Alzanor": { psp: ["Fill"], sp: ["SP Debuff Fill"], levers: [] },
+  "Valehir": { psp: ["Fill"], sp: ["SP Debuff Fill"], levers: [] },
   "Dr.Dimensio": {
-    psp: ["Mobs", "Nez100%", "Nez50%", "Nez25%", "DrD100%", "DrD75%", "DrD50%", "DrD25%"],
-    sp: ["SP Debuff Mobs", "SP Debuff Nez100%", "SP Debuff Nez50%", "SP Debuff Nez25%", "SP Debuff DrD100%", "SP Debuff DrD75%", "SP Debuff DrD50%", "SP Debuff DrD25%"],
+    psp: ["Fill", "Mobs", "Nez100%", "Nez50%", "Nez25%", "DrD100%", "DrD75%", "DrD50%", "DrD25%"],
+    sp: ["SP Debuff Fill", "SP Debuff Mobs", "SP Debuff Nez100%", "SP Debuff Nez50%", "SP Debuff Nez25%", "SP Debuff DrD100%", "SP Debuff DrD75%", "SP Debuff DrD50%", "SP Debuff DrD25%"],
     levers: [],
   },
 };
