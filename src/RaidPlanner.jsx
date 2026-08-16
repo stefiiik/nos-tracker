@@ -166,6 +166,11 @@ const RAID_TASKS = {
   "Fernon": { psp: [], sp: [], levers: [] },
   "Alzanor": { psp: [], sp: [], levers: [] },
   "Valehir": { psp: [], sp: [], levers: [] },
+  "Dr.Dimensio": {
+    psp: ["Mobs", "Nezarun", "DrDim", "100%", "75%", "50%", "25%"],
+    sp: ["SP Debuff Mobs", "SP Debuff Nezarun", "SP Debuff DrDim", "SP Debuff 100%", "SP Debuff 75%", "SP Debuff 50%", "SP Debuff 25%"],
+    levers: [],
+  },
 };
 
 function tasksFor(raidName) {
