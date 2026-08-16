@@ -167,8 +167,8 @@ const RAID_TASKS = {
   "Alzanor": { psp: [], sp: [], levers: [] },
   "Valehir": { psp: [], sp: [], levers: [] },
   "Dr.Dimensio": {
-    psp: ["Mobs", "Nezarun", "DrDim", "100%", "75%", "50%", "25%"],
-    sp: ["SP Debuff Mobs", "SP Debuff Nezarun", "SP Debuff DrDim", "SP Debuff 100%", "SP Debuff 75%", "SP Debuff 50%", "SP Debuff 25%"],
+    psp: ["Mobs", "Nez100%", "Nez50%", "Nez25%", "DrD100%", "DrD75%", "DrD50%", "DrD25%"],
+    sp: ["SP Debuff Mobs", "SP Debuff Nez100%", "SP Debuff Nez50%", "SP Debuff Nez25%", "SP Debuff DrD100%", "SP Debuff DrD75%", "SP Debuff DrD50%", "SP Debuff DrD25%"],
     levers: [],
   },
 };
