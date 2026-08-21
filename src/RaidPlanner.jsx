@@ -9,7 +9,7 @@ export const RAID_CONFIG = {
   "Crusher": { slots: 20, elements: ["Fire", "Water", "Shadow", "Light"] },
   "Alzanor": { slots: 15, elements: null },
   "Valehir": { slots: 15, elements: null },
-  "Paimon": { slots: 20, elements: null },
+  "Paimon": { slots: 20, elements: null, previewGroups: [{ key: "Boss", label: "Paimon" }, { key: "Mini", label: "Mini" }] },
   "Yertirand": { slots: 15, elements: null },
   "Dr.Dimensio": { slots: 16, elements: ["Fire", "Water", "Shadow", "Light"] },
 };
@@ -467,6 +467,21 @@ export default function RaidPlanner({ session, onBack, onUpdate }) {
     return { map, unassigned };
   }, [players, hasElements, raid]);
 
+  const previewGroups = raid.previewGroups || null;
+  const previewGrouped = useMemo(() => {
+    if (!previewGroups) return null;
+    const map = {};
+    for (const g of previewGroups) map[g.key] = [];
+    const unassigned = [];
+    for (const p of players) {
+      if (!p.name.trim()) continue;
+      const match = previewGroups.find((g) => (p.pspTasks || []).includes(g.key));
+      if (match) map[match.key].push(p);
+      else unassigned.push(p);
+    }
+    return { map, unassigned };
+  }, [players, previewGroups]);
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 p-4 md:p-8">
       <div className="max-w-5xl mx-auto space-y-6">
@@ -601,7 +616,7 @@ export default function RaidPlanner({ session, onBack, onUpdate }) {
               <span className="text-base text-slate-400">{filledCount}/{raid.slots}</span>
             </div>
 
-            {!hasElements && (
+            {!hasElements && !previewGrouped && (
               <>
                 {filledCount === 0 ? (
                   <p className="text-slate-500 text-sm">No players filled in yet.</p>
@@ -612,6 +627,37 @@ export default function RaidPlanner({ session, onBack, onUpdate }) {
                   />
                 )}
               </>
+            )}
+
+            {previewGrouped && (
+              <div className="space-y-4">
+                {previewGroups.map((g) => {
+                  const list = previewGrouped.map[g.key];
+                  return (
+                    <div key={g.key}>
+                      <div className="flex items-center gap-2 mb-1.5">
+                        <span className="text-base font-semibold text-slate-200">{g.label}</span>
+                        <span className="text-sm text-slate-500">({list.length})</span>
+                      </div>
+                      {list.length === 0 ? (
+                        <p className="text-slate-600 text-xs italic pl-4">empty</p>
+                      ) : (
+                        <div className="pl-4">
+                          <PlayerTable items={list} showLevers={hasLevers} />
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+                {previewGrouped.unassigned.length > 0 && (
+                  <div>
+                    <span className="text-base font-semibold text-slate-400">Unassigned</span>
+                    <div className="pl-4 mt-1.5">
+                      <PlayerTable items={previewGrouped.unassigned} showLevers={hasLevers} />
+                    </div>
+                  </div>
+                )}
+              </div>
             )}
 
             {hasElements && grouped && (
